@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   FlatList,
   Text,
@@ -7,22 +7,22 @@ import {
   StyleSheet,
   Image,
   SafeAreaView,
-} from 'react-native';
-import tw from 'tailwind-react-native-classnames';
-import { Icon } from 'react-native-elements';
-import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectTravelTimeInformation } from '../slices/navSlice';
-import { SelectedPage } from '../types/types';
-import { setRideOption } from '../slices/navSlice';
+} from 'react-native'
+import tw from 'tailwind-react-native-classnames'
+import { Icon } from 'react-native-elements'
+import { useNavigation } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectTravelTimeInformation } from '../slices/navSlice'
+import { SelectedPage } from '../types/types'
+import { setRideOption } from '../slices/navSlice'
 export interface RideOption {
-  id: string;
-  title: string;
-  multiplier: number;
-  image: string;
+  id: string
+  title: string
+  multiplier: number
+  image: string
 }
 
-const data = [
+const rideOptions = [
   {
     id: 'Uber-X-123',
     title: 'Uber X',
@@ -41,74 +41,26 @@ const data = [
     multiplier: 1.75,
     image: 'https://links.papareact.com/7pf',
   },
-];
+]
 
-export const SURGE_CHARGE_RATE = 1.5;
+export const SURGE_CHARGE_RATE = 1.5
 
 const RideOptionsCard = () => {
-  const navigation = useNavigation<any>();
-  const [selected, setSelected] = useState<RideOption | null>(null);
+  const navigation = useNavigation<any>()
+  const [selected, setSelected] = useState<RideOption | null>(null)
 
   const dispatch = useDispatch()
-  const travelTimeInformation = useSelector(selectTravelTimeInformation);
+  const travelTimeInformation = useSelector(selectTravelTimeInformation)
 
   const HandleChoose = () => {
     dispatch(setRideOption(selected?.title))
-    navigation.navigate(SelectedPage.SummaryCard,{
-      selectedMethod:selected,
+    navigation.navigate(SelectedPage.SummaryCard, {
+      selectedMethod: selected,
     })
-  };
+  }
 
-  return (
-    <SafeAreaView style={[tw`bg-white flex-grow`]}>
-      <View>
-        <TouchableOpacity
-          style={tw`absolute top-0 left-5 p-3 z-10 rounded-full`}
-          onPress={() => navigation.navigate('NavigateCard')}
-        >
-          <Icon name="chevron-left" type="fontawesome" />
-        </TouchableOpacity>
-        <Text style={tw`text-center py-3 text-xl`}>
-          Select a Ride - {travelTimeInformation?.distance.text}
-        </Text>
-      </View>
-      <FlatList
-        style={{ flexBasis: 270, flexGrow: 1 }}
-        data={data}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => setSelected(item)}
-            style={tw`flex-row items-center justify-between px-10 ${
-              item?.id === selected?.id ? 'bg-gray-200' : ''
-            }`}
-          >
-            <Image
-              style={{
-                width: 100,
-                height: 100,
-                resizeMode: 'contain',
-              }}
-              source={{ uri: item.image }}
-            />
-            <View style={tw`-ml-6`}>
-              <Text style={tw`text-xl font-semibold`}>{item.title}</Text>
-              <Text>{travelTimeInformation?.duration.text} Travel Time</Text>
-            </View>
-            <Text style={tw`text-xl`}>
-              {new Intl.NumberFormat('en-us', {
-                style: 'currency',
-                currency: 'CAD',
-              }).format(
-                (travelTimeInformation?.duration.value *
-                  SURGE_CHARGE_RATE *
-                  item.multiplier) /
-                  100
-              )}
-            </Text>
-          </TouchableOpacity>
-        )}
-      />
+  const ChooseButton = () => {
+    return (
       <View>
         <TouchableOpacity
           onPress={HandleChoose}
@@ -120,10 +72,68 @@ const RideOptionsCard = () => {
           </Text>
         </TouchableOpacity>
       </View>
+    )
+  }
+
+  const RideOption = ({option}:any) => {
+    return <TouchableOpacity
+    onPress={() => setSelected(option)}
+    style={tw`flex-row items-center justify-between px-10 ${
+      option?.id === selected?.id ? 'bg-gray-200' : ''
+    }`}
+  >
+    <Image
+      style={{
+        width: 100,
+        height: 100,
+        resizeMode: 'contain',
+      }}
+      source={{ uri: option.image }}
+    />
+    <View style={tw`-ml-6`}>
+      <Text style={tw`text-xl font-semibold`}>{option.title}</Text>
+      <Text>{travelTimeInformation?.duration.text} Travel Time</Text>
+    </View>
+    <Text style={tw`text-xl`}>
+      {new Intl.NumberFormat('en-us', {
+        style: 'currency',
+        currency: 'CAD',
+      }).format(
+        (travelTimeInformation?.duration.value *
+          SURGE_CHARGE_RATE *
+          option.multiplier) /
+          100
+      )}
+    </Text>
+  </TouchableOpacity>
+  }
+
+  return (
+    <SafeAreaView style={[tw`bg-white flex-grow`]}>
+      <View>
+        <TouchableOpacity
+          style={tw`absolute top-0 left-5 p-3 z-10 rounded-full`}
+          onPress={() => navigation.navigate('NavigateCard')}
+        >
+          <Icon name='chevron-left' type='fontawesome' />
+        </TouchableOpacity>
+        <Text style={tw`text-center py-3 text-xl`}>
+          Select a Ride - {travelTimeInformation?.distance.text}
+        </Text>
+      </View>
+      <FlatList
+        style={{ flexBasis: 270, flexGrow: 1 }}
+        data={rideOptions}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <RideOption option={item} />
+        )}
+      />
+      <ChooseButton />
     </SafeAreaView>
-  );
-};
+  )
+}
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({})
 
-export default RideOptionsCard;
+export default RideOptionsCard
