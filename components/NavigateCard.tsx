@@ -1,43 +1,44 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from 'react'
 import {
   View,
   StyleSheet,
   SafeAreaView,
   Text,
-  TextInput,
   TouchableOpacity,
-} from 'react-native';
-import tw from 'tailwind-react-native-classnames';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { G_API_KEY } from '@env';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectDestination, selectOrigin, setDestination, setRideOption } from '../slices/navSlice';
-import { useNavigation } from '@react-navigation/native';
-import NavFavourites from './NavFavourites';
-import { Icon } from 'react-native-elements';
+} from 'react-native'
+import tw from 'tailwind-react-native-classnames'
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import { G_API_KEY } from '@env'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  selectDestination,
+  selectOrigin,
+  setDestination,
+} from '../slices/navSlice'
+import { useNavigation } from '@react-navigation/native'
+import NavFavourites from './NavFavourites'
+import { Icon } from 'react-native-elements'
 
 const NavigateCard = () => {
-  const dispatch = useDispatch();
-  const navigation = useNavigation<any>();
-  const origin = useSelector(selectOrigin);
+  const dispatch = useDispatch()
+  const navigation = useNavigation<any>()
+  const origin = useSelector(selectOrigin)
   const destination = useSelector(selectDestination)
-  useEffect(()=>{
-    if(origin && destination){
+  useEffect(() => {
+    if (origin && destination) {
       navigation.navigate('RideOptionsCard')
     }
-
-  },[origin,destination])
+  }, [origin, destination])
   return (
     <SafeAreaView style={tw`bg-white flex-1`}>
       <Text style={tw`text-center py-5 text-xl`}>Good Morning, Joshua</Text>
       <View style={tw`border-t border-gray-200 flex-shrink`}>
         <GooglePlacesAutocomplete
-          placeholder="Whete to?"
+          placeholder='Whete to?'
           debounce={400}
           minLength={2}
           styles={styles}
           fetchDetails={true}
-          //returnKeyType='search'
           enablePoweredByContainer={false}
           query={{
             key: G_API_KEY,
@@ -49,8 +50,8 @@ const NavigateCard = () => {
                 location: details?.geometry.location,
                 description: data.description,
               })
-            );
-            navigation.navigate('RideOptionsCard');
+            )
+            navigation.navigate('RideOptionsCard')
           }}
         />
         <NavFavourites function='setDestination' />
@@ -60,27 +61,27 @@ const NavigateCard = () => {
       >
         <TouchableOpacity
           style={tw`justify-between flex flex-row bg-black w-24 px-4 rounded-full py-3`}
-          onPress={()=>navigation.navigate("NavigateCard")}
+          onPress={() => navigation.navigate('NavigateCard')}
         >
-          <Icon name="car" type="font-awesome" color="white" size={16} />
+          <Icon name='car' type='font-awesome' color='white' size={16} />
           <Text style={tw`text-white text-center`}>Rides</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={tw`flex flex-row  justify-between bg-white w-24 px-4 rounded-full py-3`}
-          onPress={()=>navigation.navigate("HomeScreen")}
+          onPress={() => navigation.navigate('HomeScreen')}
         >
           <Icon
-            name="fast-food-outline"
-            type="ionicon"
-            color="black"
+            name='fast-food-outline'
+            type='ionicon'
+            color='black'
             size={16}
           />
           <Text style={tw` text-center`}>Eats</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -97,6 +98,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 0,
   },
-});
+})
 
-export default NavigateCard;
+export default NavigateCard

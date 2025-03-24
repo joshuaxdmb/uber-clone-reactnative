@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, SafeAreaView, Image } from 'react-native';
+import { View, StyleSheet, SafeAreaView, Image } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 import NavOptions from '../components/NavOptions';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -31,7 +31,6 @@ const HomeScreen = () => {
             },
           }}
           fetchDetails={true}
-          //returnKeyType={'search'}
           enablePoweredByContainer={false}
           minLength={2}
           query={{
@@ -44,11 +43,6 @@ const HomeScreen = () => {
                 location:details?.geometry.location,
                 description:data.description
             }))
-            // console.log(JSON.stringify({
-            //     location:details?.geometry.location,
-            //     description:data.description
-            // }))
-            //Could set destination to null to start fresh assuming that's what the user wants
           }}
         />
         <NavOptions />

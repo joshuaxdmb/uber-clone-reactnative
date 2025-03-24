@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Text, SafeAreaView, TouchableOpacity } from 'react-native';
-import tw, { create } from 'tailwind-react-native-classnames';
+import { View, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
+import tw from 'tailwind-react-native-classnames';
 import Map from '../components/Map';
 import { createStackNavigator } from '@react-navigation/stack';
 import NavigateCard from '../components/NavigateCard';

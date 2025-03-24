@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { Icon, Text } from 'react-native-elements';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import tw from 'tailwind-react-native-classnames';
-import { selectOrigin, setDestination, setOrigin } from '../slices/navSlice';
+import { setDestination, setOrigin } from '../slices/navSlice';
 import { useNavigation } from '@react-navigation/native';
 
 const data = [

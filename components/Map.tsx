@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, ReactNode } from 'react';
-import { View, StyleSheet, Image, Text } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { View, StyleSheet, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -15,8 +15,7 @@ import carMarker from '../assets/carMarker.png';
 import { selectRideOption } from '../slices/navSlice';
 import { setOrigin } from '../slices/navSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faLocationDot, faLocationPin } from '@fortawesome/free-solid-svg-icons';
-import tw from 'tailwind-react-native-classnames';
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 const Map = () => {
   const dispatch = useDispatch();
